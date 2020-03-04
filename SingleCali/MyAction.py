@@ -1,7 +1,10 @@
 import numpy as np
 import sys
-sys.path.append('/Users/nannan/PycharmProjects/SingleCali/SingleCamera')
-from SigleCamera import SingleCamera
+sys.path.append('/Users/nannan/PycharmProjects/SingleCaliPython/SingleCali/SingleCamera')
+from SingleCali.SingleCamera import SingleCamera
+
+
+
 
 w_xz = np.array([8, 0, 9, 1, 8, 0, 1, 1, 6, 0, 1, 1, 6, 0, 9, 1])
 w_xz = w_xz.reshape(4, 4)
