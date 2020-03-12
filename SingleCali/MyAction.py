@@ -1,11 +1,18 @@
+
 import numpy as np
 import sys
 sys.path.append('/Users/nannan/PycharmProjects/SingleCaliPython/SingleCali/SingleCamera')
 from SingleCali.SingleCamera import SingleCamera
 
 
+# The homogeneous world coodinate
 
+# Although it would be more appropriate to write a function to read the coordinates, 
+# we've simplified it by listing the coordinates directly in array.
 
+# def myCheck(new_world,new_pixel,aM):
+#     pass
+world corrdinate
 w_xz = np.array([8, 0, 9, 1, 8, 0, 1, 1, 6, 0, 1, 1, 6, 0, 9, 1])
 w_xz = w_xz.reshape(4, 4)
 # w_xy=np.array([5,1,0,5,9,0,4,9,0,4,1,0])
@@ -26,14 +33,14 @@ c_yz = c_yz.reshape(4, 2)
 c_coor = np.vstack((c_xz, c_xy, c_yz))
 print(c_coor)
 
-def myCheck(new_world,new_pixel,aM):
-    pass
+
 
 def main():
-    aCamera=SingleCamera(w_coor,c_coor,12)
+    aCamera=SingleCamera(w_coor,c_coor,12) # 12 points in total are used
     aCamera.composeP()
     aCamera.svdP()
     aCamera.workInAndOut()
+    
     # validate the result by putting in a world coordinate
     w_test=np.array([7,0,2,1])
     test_pix=np.dot(aCamera.returnM(),w_test)
