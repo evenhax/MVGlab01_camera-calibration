@@ -10,7 +10,7 @@ class SingleCamera:
         self.__point_num=n
 
         self.__P=np.empty([self.__point_num,12], dtype = float)
-        self.__roM=np.empty([3,4],dtype=float)
+        self.__roM=np.empty([3,4],dtype=float) #
         self.__A=np.empty([3,3],dtype = float)
         self.__b = np.empty([3, 1], dtype=float)
         self.__K=np.empty([3,3],dtype=float)
