@@ -1,3 +1,7 @@
+# author:Zhaoran ZHAO
+# contact: zhaozhaoran@bupt.edu.cn
+# datetime:2020/3/12 8:38 pm
+# software: PyCharm
 
 import numpy as np
 import sys
@@ -10,9 +14,7 @@ from SingleCali.SingleCamera import SingleCamera
 # Although it would be more appropriate to write a function to read the coordinates, 
 # we've simplified it by listing the coordinates directly in array.
 
-# def myCheck(new_world,new_pixel,aM):
-#     pass
-world corrdinate
+# world corrdinate
 w_xz = np.array([8, 0, 9, 1, 8, 0, 1, 1, 6, 0, 1, 1, 6, 0, 9, 1])
 w_xz = w_xz.reshape(4, 4)
 # w_xy=np.array([5,1,0,5,9,0,4,9,0,4,1,0])
@@ -42,6 +44,8 @@ def main():
     aCamera.workInAndOut()
     
     # validate the result by putting in a world coordinate
+    # def myCheck(new_world,new_pixel,aM):
+    #     pass
     w_test=np.array([7,0,2,1])
     test_pix=np.dot(aCamera.returnM(),w_test)
     u=test_pix[0]/test_pix[2]
