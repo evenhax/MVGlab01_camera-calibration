@@ -52,37 +52,40 @@ class SingleCamera:
     def composeP(self):
         i = 0
         P = np.empty([self.__point_num, 12], dtype=float)
-        print(P.shape)
+        # print(P.shape)
         while i < self.__point_num:
             c = i // 2
             p1 = self.__world_coor[c]
             p2 = np.array([0, 0, 0, 0])
             if i % 2 == 0:
                 p3 = -p1 * self.__pixel_coor[c][0]
-                print(p3)
+                #print(p3)
                 P[i] = np.hstack((p1, p2, p3))
 
             elif i % 2 == 1:
                 p3 = -p1 * self.__pixel_coor[c][1]
-                print(p3)
+                #print(p3)
                 P[i] = np.hstack((p2, p1, p3))
             # M = P[i]
             # print(M)
             i = i + 1
+        print("Now P is with form of :")
         print(P)
         self.__P = P
 
     # svd to P，return A,b, where M=[A b]
     def svdP(self):
         U, sigma, VT = LA.svd(self.__P)
-        print(VT.shape)
+        # print(VT.shape)
         V = np.transpose(VT)
         preM = V[:, -1]
         roM = preM.reshape(3, 4)
+        print("some scalar multiple of M,recorded as roM:")
         print(roM)
         A = roM[0:3, 0:3].copy()
-        print(A)
         b = roM[0:3, 3:4].copy()
+        print("M can be written in form of [A b],where A is 3x3 and b is 3x1, as following:")
+        print(A)
         print(b)
         self.__roM = roM
         self.__A = A
@@ -93,36 +96,34 @@ class SingleCamera:
         # compute ro, where ro=1/|a3|, ro may be positive or negative,
         # we choose the positive ro and name it ro01
         a3T = self.__A[2]
-        print(a3T)
+        # print(a3T)
         under = LA.norm(a3T)
-        print(under)
+        # print(under)
         ro01 = 1 / under
+        print("The ro is %f"%ro01)
 
         # comput cx and cy
-        print(ro01)
         a1T = self.__A[0]
         a2T = self.__A[1]
         cx = ro01 * ro01 * (np.dot(a1T, a3T))
         cy = ro01 * ro01 * (np.dot(a2T, a3T))
-        print(cx, cy)
+        print("cx=%f,cy=%f "%(cx, cy))
 
         # compute theta
         a_cross13 = np.cross(a1T, a3T)
         a_cross23 = np.cross(a2T, a3T)
-        print(a_cross13, a_cross23)
-
         theta = np.arccos((-1) * np.dot(a_cross13, a_cross23) / (LA.norm(a_cross13) * LA.norm(a_cross23)))
-        print(theta)
+        print("theta is: %f"%theta)
 
         # compute alpha and beta
         alpha = ro01 * ro01 * LA.norm(a_cross13) * np.sin(theta)
         beta = ro01 * ro01 * LA.norm(a_cross23) * np.sin(theta)
-
-        print(alpha, beta)
+        print("alpha:%f, beta:%f"%(alpha,beta))
 
         # compute K
         K = np.array([alpha, -alpha * (1 / np.tan(theta)), cx, 0, beta / (np.sin(theta)), cy, 0, 0, 1])
         K = K.reshape(3, 3)
+        print("We can get K accordingly: ")
         print(K)
         self.__K = K
 
@@ -130,13 +131,16 @@ class SingleCamera:
         r1 = a_cross23 / LA.norm(a_cross23)
         r301 = ro01 * a3T
         r2 = np.cross(r301, r1)
-        print(r1, r2, r301)
-        R = ([r1, r2, r301])
+        #print(r1, r2, r301)
+        R = np.hstack((r1, r2, r301))
+        R=R.reshape(3,3)
+        print("we can get R:")
         print(R)
         self.__R = R
 
         # compute T
         T = ro01 * np.dot(LA.inv(K), self.__b)
+        print("we can get t:")
         print(T)
         self.__t = T
 
