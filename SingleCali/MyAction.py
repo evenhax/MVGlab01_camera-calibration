@@ -34,6 +34,12 @@ c_yz = np.array([654, 216, 644, 368, 761, 420, 781, 246])
 c_yz = c_yz.reshape(4, 2)
 c_coor = np.vstack((c_xz, c_xy, c_yz))
 print(c_coor)
+# coordinate for validation whether the M is correct or not
+w_check = np.array([6,0,5,1,3,3,0,1,0,4,0,1,0,4,4,1,0,0,7,1])
+w_check=w_check.reshape(5,4)
+c_check=np.array([369,297,531,484,640,468,646,333,556,194])
+c_check=c_check.reshape(5,2)
+
 
 
 
@@ -46,11 +52,12 @@ def main():
     # validate the result by putting in a world coordinate
     # def myCheck(new_world,new_pixel,aM):
     #     pass
-    w_test=np.array([7,0,2,1])
-    test_pix=np.dot(aCamera.returnM(),w_test)
-    u=test_pix[0]/test_pix[2]
-    v=test_pix[1]/test_pix[2]
-    print(u,v)
+    # w_test=np.array([7,0,2,1])
+    # test_pix=np.dot(aCamera.returnM(),w_test)
+    # u=test_pix[0]/test_pix[2]
+    # v=test_pix[1]/test_pix[2]
+    # print(u,v)
+    aCamera.selfcheck(w_check,c_check)
 
 
 if __name__=="__main__":

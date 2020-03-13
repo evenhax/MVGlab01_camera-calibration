@@ -139,3 +139,25 @@ class SingleCamera:
         T = ro01 * np.dot(LA.inv(K), self.__b)
         print(T)
         self.__t = T
+
+    def selfcheck(self,w_check,c_check):
+        my_size=c_check.shape[0]
+        my_err=np.empty([my_size])
+        for i in range(my_size) :
+            test_pix = np.dot(self.__roM, w_check[i])
+            u = test_pix[0] / test_pix[2]
+            v = test_pix[1] / test_pix[2]
+            u_c=c_check[i][0]
+            v_c=c_check[i][1]
+            print("you get test point %d with result (%f,%f)"%(i, u, v))
+            print("the correct result is (%f,%f)"%(u_c,v_c))
+            my_err[i]=(abs(u-u_c)/u_c+abs(v-v_c)/v_c)/2
+        average_err=my_err.sum()/my_size
+        print("The average error is %f ,"%average_err)
+        if(average_err>0.1):
+            print(" which is more than 0.1")
+        else:
+            print(" which is smaller than 0.1, the M is acceptable")
+
+
+
