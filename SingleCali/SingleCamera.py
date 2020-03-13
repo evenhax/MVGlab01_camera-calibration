@@ -155,9 +155,9 @@ class SingleCamera:
         average_err=my_err.sum()/my_size
         print("The average error is %f ,"%average_err)
         if(average_err>0.1):
-            print(" which is more than 0.1")
+            print("which is more than 0.1")
         else:
-            print(" which is smaller than 0.1, the M is acceptable")
+            print("which is smaller than 0.1, the M is acceptable")
 
 
 
